@@ -41,22 +41,39 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   // create a new 
-  try {
-    Category.create({
-      category_name: req.body.category_name
-    });
-  } catch (error) {
-    return res.status(500).json(error);
+  if (req.body.category_name) {
+    try {
+      Category.create({
+        category_name: req.body.category_name
+      });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  } else {
+    return res.status(400).json("Could not create category, must include category_name in body of request.")
   }
 });
 
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value
   // TODO:
-  try {
-
-  } catch (error) {
-    res.status(500).json(error);
+  if (req.body.category_name && req.params.id) {
+    try {
+      await Category.update(
+        {
+          category_name: req.body.category_name
+        },
+        {
+          where: {
+            id: req.params.id
+          }
+        });
+      res.status(200).json(`Updated category ID ${req.params.id} to ${req.body.category_name}.`)
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  } else {
+    return res.status(400).json("Could not create category, must include id in request params and category_name in body of request.")
   }
 });
 

@@ -48,19 +48,37 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   // create a new tag
+  if (req.body.tag_name) {
     try {
-    await Tag.create({
-      tag_name: req.body.tag_name
-    });
-    return res.status(200).json(`${req.body.tag_name} tag created.`)
-  } catch (error) {
-    return res.status(500).json(error);
+      await Tag.create({
+        tag_name: req.body.tag_name
+      });
+      return res.status(200).json(`${req.body.tag_name} tag created.`)
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  } else {
+    return res.status(400).json("Could not create tag, must include tag_name in body of request.")
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
   // TODO:
+   try {
+    await Tag.update(
+      {
+        tag_name: req.body.tag_name
+      },
+      {
+        where: {
+          id: req.params.id
+        }
+      });
+    res.status(200).json(`Updated tag ID ${req.params.id} to ${req.body.category_name}.`)
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 router.delete('/:id', async (req, res) => {
