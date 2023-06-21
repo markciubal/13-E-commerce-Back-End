@@ -5,7 +5,7 @@ https://github.com/markciubal/13-E-commerce-Back-End/assets/1228604/c7e61515-5f5
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 
 ## Table of Contents
-- [Descrption](#description)
+- [Description](#description)
 - [Acceptance Criteria](#acceptance-criteria)
 - [Installation](#installation)
 - [Usage](#usage)
