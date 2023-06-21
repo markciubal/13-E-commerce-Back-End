@@ -46,6 +46,7 @@ router.post('/', async (req, res) => {
       Category.create({
         category_name: req.body.category_name
       });
+      return res.status(200).json(`${req.body.category_name} category creation successful!`)
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -79,15 +80,19 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   // delete a category by its `id` 
-  try {
-    await Category.destroy({
-      where: {
-        id: req.params.id
-      }
-    });
-    return res.status(200).json(`Deleted category where id = ${req.params.id}`);
-  } catch (err) {
-    return res.status(500).json(err);
+  if (req.params.id) {
+    try {
+      await Category.destroy({
+        where: {
+          id: req.params.id
+        }
+      });
+      return res.status(200).json(`Deleted category where id = ${req.params.id}`);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  } else {
+    return res.status(400).json("Could not find that ID. Please ensure the ID is specified in the URL parameters.");
   }
 });
 

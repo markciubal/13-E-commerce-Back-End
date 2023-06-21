@@ -75,7 +75,7 @@ router.put('/:id', async (req, res) => {
           id: req.params.id
         }
       });
-    res.status(200).json(`Updated tag ID ${req.params.id} to ${req.body.category_name}.`)
+    res.status(200).json(`Updated tag ID ${req.params.id} to ${req.body.tag_name}.`)
   } catch (error) {
     res.status(500).json(error);
   }

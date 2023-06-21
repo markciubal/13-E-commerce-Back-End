@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
       ]
     });
     if (!productData) {
-      res.status(404).json({ message: 'No product for this id!' });
+      res.status(404).json({ message: 'No data for product!' });
       return;
     }
     res.status(200).json(productData);
@@ -135,15 +135,19 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
-  try {
-    await Product.destroy({
-      where: {
-        id: req.params.id
-      }
-    });
-    return res.status(200).json(`Deleted product where id = ${req.params.id}`);
-  } catch (err) {
-    return res.status(500).json(err);
+  if (req.params.id) {
+    try {
+      await Product.destroy({
+        where: {
+          id: req.params.id
+        }
+      });
+      return res.status(200).json(`Deleted product where id = ${req.params.id}`);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  } else {
+    return res.status(400).json("Could not find that ID. Please ensure the ID is specified in the URL parameters.");
   }
 });
 
